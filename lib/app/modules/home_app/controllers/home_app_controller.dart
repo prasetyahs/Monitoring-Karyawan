@@ -1,11 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:monitoring_karyawan/helper/value_helper.dart';
 
 class HomeAppController extends GetxController {
-
-  final PageController pageController = PageController(viewportFraction: 0.9);
-
   final count = 0.obs;
+  final pageController = ValueHelper.pageController;
+  final RxInt _indexMenu = 0.obs;
+
+  set indexMenu(int v) {
+    _indexMenu.value = v;
+  }
+
+  int get indexMenu => _indexMenu.value;
+
   @override
   void onInit() {
     super.onInit();

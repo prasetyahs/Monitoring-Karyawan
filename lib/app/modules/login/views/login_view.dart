@@ -15,6 +15,7 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
+        autoLeading: true,
         foregroundColor: Colors.white,
         body: Column(
           children: [
@@ -39,9 +40,10 @@ class LoginView extends GetView<LoginController> {
               child: Column(
                 children: [
                   MonitoringTextField(
-                    labelText: "Username",
+                    labelText: "NIP",
                     isObsecure: false,
                     icon: Icons.person,
+                    controller: controller.nipTextController,
                   ),
                   SizedBox(
                     height: 20.h,
@@ -50,12 +52,13 @@ class LoginView extends GetView<LoginController> {
                     labelText: "Password",
                     isObsecure: true,
                     icon: Icons.remove_red_eye_rounded,
+                    controller: controller.passwordTextController,
                   ),
                   SizedBox(
                     height: 30.h,
                   ),
                   MonitoringButton(
-                    callback: () => Get.toNamed(Routes.HOME_APP),
+                    callback: () => controller.login(),
                     title: "Masuk",
                     color: Colors.orange[600],
                     border: Border.all(color: Colors.transparent),

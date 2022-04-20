@@ -1,11 +1,19 @@
 import 'package:get/get.dart';
 
+import '../modules/detail_lead/bindings/detail_lead_binding.dart';
+import '../modules/detail_lead/views/detail_lead_view.dart';
+import '../modules/detail_product/bindings/detail_product_binding.dart';
+import '../modules/detail_product/views/detail_product_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home_app/bindings/home_app_binding.dart';
 import '../modules/home_app/views/home_app_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/update_password/bindings/update_password_binding.dart';
+import '../modules/update_password/views/update_password_view.dart';
+import '../modules/update_profile/bindings/update_profile_binding.dart';
+import '../modules/update_profile/views/update_profile_view.dart';
 
 part 'app_routes.dart';
 
@@ -29,6 +37,26 @@ class AppPages {
       name: _Paths.HOME_APP,
       page: () => HomeAppView(),
       binding: HomeAppBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_LEAD,
+      page: () => DetailLeadView(),
+      binding: DetailLeadBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PRODUCT,
+      page: () => DetailProductView(),
+      binding: DetailProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_PROFILE,
+      page: () => UpdateProfileView(),
+      binding: UpdateProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_PASSWORD,
+      page: () => UpdatePasswordView(),
+      binding: UpdatePasswordBinding(),
     ),
   ];
 }

@@ -7,12 +7,12 @@ import 'package:monitoring_karyawan/app/modules/home_app/views/menu/report_view.
 import 'package:monitoring_karyawan/app/modules/home_app/views/menu/user_view.dart';
 
 class ValueHelper {
+  static final PageController pageController = PageController(viewportFraction: 0.9);
   static final menuPage = [
-    HomeView(),
+    HomeView(pageController),
     LeadsView(),
     ProductView(),
     ReportView(),
     UserView()
   ];
-  static final PageController pageController = PageController(viewportFraction: 0.9);
 }

@@ -11,6 +11,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
+      autoLeading: true,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(

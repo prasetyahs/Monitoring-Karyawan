@@ -7,14 +7,16 @@ class MonitoringTextField extends StatelessWidget {
       {Key? key,
       required this.labelText,
       required this.icon,
-      required this.isObsecure})
+      required this.isObsecure, this.controller})
       : super(key: key);
   final String labelText;
   final IconData icon;
   final bool isObsecure;
+  final controller;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
           labelText: labelText,
           border: UnderlineInputBorder(borderSide: BorderSide(width: 0.1)),

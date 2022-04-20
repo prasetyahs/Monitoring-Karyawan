@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
-
 import 'app/routes/app_pages.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: LayoutHelper.primaryColor));
   runApp(ScreenUtilInit(

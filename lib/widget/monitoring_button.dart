@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MonitoringButton extends StatelessWidget {
   const MonitoringButton(
-      {Key? key, this.callback, this.title, required this.border, this.color})
+      {Key? key, this.callback, this.title, required this.border, this.color, this.fontSize})
       : super(key: key);
-  final callback, title,  color;
+  final callback, title, color, fontSize;
   final BoxBorder border;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,8 @@ class MonitoringButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(50.w)),
         child: Text(
           title.toString().toUpperCase(),
-          style: TextStyle(color: Colors.white,letterSpacing: 1.w),
+          style: TextStyle(
+              color: Colors.white, letterSpacing: 1.w, fontSize: fontSize),
         ),
       ),
     );

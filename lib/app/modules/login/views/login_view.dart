@@ -48,12 +48,18 @@ class LoginView extends GetView<LoginController> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  MonitoringTextField(
-                    labelText: "Password",
-                    isObsecure: true,
-                    icon: Icons.remove_red_eye_rounded,
-                    controller: controller.passwordTextController,
-                  ),
+                  Obx(() => MonitoringTextField(
+                        labelText: "Password",
+                        isObsecure: controller.isShowPassword.value,
+                        iconTap: () {
+                          controller.showPassword =
+                              controller.isShowPassword.isTrue ? false : true;
+                        },
+                        icon: controller.isShowPassword.isFalse
+                            ? Icons.remove_red_eye_rounded
+                            : Icons.visibility_off,
+                        controller: controller.passwordTextController,
+                      )),
                   SizedBox(
                     height: 30.h,
                   ),

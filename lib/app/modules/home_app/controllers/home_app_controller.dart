@@ -1,15 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/product_model.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/providers/product_provider.dart';
+import 'package:monitoring_karyawan/app/modules/login/login_model.dart'
+    as login;
+import 'package:monitoring_karyawan/helper/shared_prefs.dart';
 import 'package:monitoring_karyawan/helper/value_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeAppController extends GetxController with StateMixin<Product> {
+  
   final count = 0.obs;
   final pageController = ValueHelper.pageController;
   final RxInt _indexMenu = 0.obs;
   final ProductProvider productProvider;
-
+  final Rx<login.Data> dataLogin = login.Data().obs;
   HomeAppController({required this.productProvider});
 
   void allProducts() {
@@ -23,7 +28,6 @@ class HomeAppController extends GetxController with StateMixin<Product> {
 
   Future<void> intentExplicit(Uri schema) async {
     final Uri launchUri = schema;
-
     await launch(launchUri.toString());
   }
 
@@ -40,7 +44,8 @@ class HomeAppController extends GetxController with StateMixin<Product> {
   }
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
+    await SharedPrefs.readPrefs().then((value) => dataLogin.value = value!);
     super.onReady();
   }
 

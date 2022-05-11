@@ -23,32 +23,57 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         child: Column(
           children: [
             MonitoringTextField(
-                labelText: "Nama depan",
+                labelText: "Nama Lengkap",
                 icon: Icons.person_pin_rounded,
+                controller: controller.inputController[0],
                 isObsecure: false),
             SizedBox(
               height: LayoutHelper.spaceSizeBox,
             ),
             MonitoringTextField(
-                labelText: "Nama Belakang",
-                icon: Icons.person_pin,
+                textFieldTap: () => showDatePicker(
+                        context: context,
+                        initialDate: DateTime(1999),
+                        lastDate: DateTime.now(),
+                        firstDate: DateTime(1700))
+                    .then((value) => print(value.toString().split(" ")[0])),
+                controller: controller.inputController[1],
+                readOnly: true,
+                labelText: "Tanggal Lahir",
+                icon: Icons.date_range_rounded,
+                isObsecure: false),
+            MonitoringTextField(
+                controller: controller.inputController[2],
+                labelText: "Email",
+                icon: Icons.mail,
                 isObsecure: false),
             SizedBox(
               height: LayoutHelper.spaceSizeBox,
             ),
+            SizedBox(
+              height: LayoutHelper.spaceSizeBox,
+            ),
             MonitoringTextField(
+                controller: controller.inputController[3],
                 labelText: "Nomor Telepon",
                 icon: Icons.phone,
                 isObsecure: false),
             SizedBox(
               height: LayoutHelper.spaceSizeBox,
             ),
+            SizedBox(
+              height: LayoutHelper.spaceSizeBox,
+            ),
             MonitoringTextField(
+                controller: controller.inputController[4],
                 labelText: "Alamat",
                 icon: Icons.location_on,
                 isObsecure: false),
             SizedBox(
               height: LayoutHelper.spaceVertical,
+            ),
+            SizedBox(
+              height: LayoutHelper.spaceSizeBox,
             ),
             MonitoringButton(
               callback: () {},

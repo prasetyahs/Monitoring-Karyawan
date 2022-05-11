@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:monitoring_karyawan/app/modules/home_app/controllers/home_app_controller.dart';
 import 'package:monitoring_karyawan/app/routes/app_pages.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:monitoring_karyawan/widget/text_border.dart';
 
-class UserView extends GetView {
+class UserView extends GetView<HomeAppController> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,13 +31,28 @@ class UserView extends GetView {
                     color: Colors.amber),
               ),
               SizedBox(width: LayoutHelper.spaceHorizontal),
-              Text(
-                "Prasetya Hadi Saputra",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: LayoutHelper.fontLarge,
-                ),
-              )
+              Obx(() => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        controller.dataLogin.value.namaKaryawan.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: LayoutHelper.fontLarge,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Text(
+                        controller.dataLogin.value.jabatan.toString(),
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.7),
+                          fontSize: LayoutHelper.fontSmall,
+                        ),
+                      )
+                    ],
+                  ))
             ],
           ),
         ),

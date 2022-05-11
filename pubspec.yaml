@@ -16,6 +16,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.4.56
   url_launcher: ^6.0.20
   flutter_dotenv: ^5.0.2
+  shared_preferences: ^2.0.13
 
 dev_dependencies: 
   flutter_lints: ^1.0.0

@@ -10,8 +10,10 @@ class UpdateProfileController extends GetxController {
   void onInit() async {
     super.onInit();
     await SharedPrefs.readPrefs().then((value) => {
-      inputController[0].text = value!.namaKaryawan!,
-    });
+          inputController[0].text = value!.namaKaryawan!,
+          inputController[1].text = value.tglLahir!,
+          inputController[2].text = value.email!,
+        });
   }
 
   @override

@@ -11,20 +11,21 @@ class MonitoringTextField extends StatelessWidget {
       this.controller,
       this.iconTap,
       this.textFieldTap,
-      this.readOnly})
+      this.readOnly,
+      this.textInputType})
       : super(key: key);
   final String labelText;
   final IconData icon;
   final bool isObsecure;
   final controller;
   final iconTap, textFieldTap, readOnly;
-
+  final textInputType;
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
       onTap: textFieldTap,
-      readOnly: readOnly ?? true,
+      keyboardType: textInputType ?? TextInputType.text,
       decoration: InputDecoration(
           labelText: labelText,
           border: UnderlineInputBorder(borderSide: BorderSide(width: 0.1)),

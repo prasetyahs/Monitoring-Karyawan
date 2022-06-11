@@ -3,10 +3,10 @@ import 'package:monitoring_karyawan/app/routes/app_pages.dart';
 import 'package:monitoring_karyawan/helper/shared_prefs.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
   @override
   void onInit() async {
     await SharedPrefs.readPrefs().then((value) {
+      print(value?.nik);
       if (value?.nik != null) {
         Get.offAndToNamed(Routes.HOME_APP);
       }

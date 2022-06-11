@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:monitoring_karyawan/widget/monitoring_button.dart';
-import 'package:monitoring_karyawan/widget/monitoring_drop.dart';
 import 'package:monitoring_karyawan/widget/monitoring_textfield.dart';
 
 class CreateLeadsView extends GetView {
@@ -26,18 +25,46 @@ class CreateLeadsView extends GetView {
               vertical: LayoutHelper.spaceVertical),
           child: Column(
             children: [
-              MonitoringDrop(hint: "Tipe Identitas",),
               MonitoringTextField(
-                  labelText: "No ID",
+                  labelText: "NIK",
                   icon: CupertinoIcons.number,
                   isObsecure: false),
+              SizedBox(
+                height: LayoutHelper.spaceVertical,
+              ),
               MonitoringTextField(
-                  labelText: "Name",
+                  labelText: "Nama Customer",
                   icon: CupertinoIcons.textformat_abc,
                   isObsecure: false),
+              SizedBox(
+                height: LayoutHelper.spaceVertical,
+              ),
               MonitoringTextField(
-                  labelText: "Phone",
-                  icon: CupertinoIcons.phone,
+                  textFieldTap: () => showDatePicker(
+                          context: context,
+                          initialDate: DateTime(1999),
+                          lastDate: DateTime.now(),
+                          firstDate: DateTime(1700))
+                      .then((value) => print(value.toString().split(" ")[0])),
+                  readOnly: true,
+                  labelText: "Tanggal Lahir",
+                  icon: Icons.date_range_rounded,
+                  isObsecure: false),
+              SizedBox(
+                height: LayoutHelper.spaceVertical,
+              ),
+              MonitoringTextField(
+                  readOnly: true,
+                  labelText: "No Rekening",
+                  icon: Icons.numbers,
+                  textInputType: TextInputType.number,
+                  isObsecure: false),
+              SizedBox(
+                height: LayoutHelper.spaceVertical,
+              ),
+              MonitoringTextField(
+                  labelText: "Nama Customer",
+                  icon: CupertinoIcons.textformat_abc,
                   isObsecure: false),
               SizedBox(
                 height: LayoutHelper.spaceVertical,

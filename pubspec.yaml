@@ -13,14 +13,12 @@ dependencies:
   get: 4.6.1
   flutter_screenutil: ^5.3.1
   flutter_svg: ^1.0.3
-  syncfusion_flutter_charts: ^19.4.56
+  syncfusion_flutter_charts: ^20.1.55
   url_launcher: ^6.0.20
   flutter_dotenv: ^5.0.2
   shared_preferences: ^2.0.13
 
 dev_dependencies: 
-  flutter_lints: ^1.0.0
-  lints: 1.0.1
   flutter_test: 
     sdk: flutter
 

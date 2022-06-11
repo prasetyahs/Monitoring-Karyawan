@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:monitoring_karyawan/widget/main_layout.dart';

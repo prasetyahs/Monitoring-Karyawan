@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 class UpdatePasswordController extends GetxController {
-  //TODO: Implement UpdatePasswordController
 
   final count = 0.obs;
   @override

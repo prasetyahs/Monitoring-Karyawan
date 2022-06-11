@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
@@ -11,7 +10,7 @@ import '../controllers/home_app_controller.dart';
 class HomeAppView extends GetView<HomeAppController> {
   @override
   Widget build(BuildContext context) {
-    
+
     return Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: Obx(() => BottomNavigationBar(

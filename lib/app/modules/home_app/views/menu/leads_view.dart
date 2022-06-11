@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/controllers/home_app_controller.dart';
+import 'package:monitoring_karyawan/app/modules/home_app/leads_model.dart'
+    as leads;
 import 'package:monitoring_karyawan/app/modules/home_app/views/create_leads_view.dart';
 import 'package:monitoring_karyawan/app/routes/app_pages.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
@@ -44,16 +46,17 @@ class LeadsView extends GetView<HomeAppController> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         child: ListView.builder(
-            itemCount: 4,
+            itemCount: controller.leads.value.data?.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding:
                     EdgeInsets.symmetric(vertical: LayoutHelper.spaceSizeBox),
                 child: GestureDetector(
                   onTap: () => Get.toNamed(Routes.DETAIL_LEAD),
-                  child: RowLeads(
-                    controller: controller,
-                  ),
+                  child: Obx(() => RowLeads(
+                        controller: controller,
+                        data: controller.leads.value.data![index],
+                      )),
                 ),
               );
             }),
@@ -63,8 +66,10 @@ class LeadsView extends GetView<HomeAppController> {
 }
 
 class RowLeads extends StatelessWidget {
-  const RowLeads({Key? key, required this.controller}) : super(key: key);
+  RowLeads({Key? key, required this.controller, required this.data})
+      : super(key: key);
   final HomeAppController controller;
+  final leads.Data data;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -95,13 +100,13 @@ class RowLeads extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Prasetya Hadi Saputra",
+                      "${data.namaCustomer}",
                       style: TextStyle(fontSize: LayoutHelper.fontMedium),
                     ),
                     SizedBox(
                       height: LayoutHelper.spaceSizeBox,
                     ),
-                    Text("Software Engineer",
+                    Text("${data.email}",
                         style: TextStyle(
                           fontSize: LayoutHelper.fontSmall,
                           color: Colors.grey[600],
@@ -112,7 +117,7 @@ class RowLeads extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => controller.intentExplicit(
-                          Uri(scheme: "tel", path: "089506277284")),
+                          Uri(scheme: "tel", path: "${data.telepon}")),
                       child: Icon(
                         CupertinoIcons.phone_fill,
                         color: LayoutHelper.primaryColor,
@@ -124,7 +129,7 @@ class RowLeads extends StatelessWidget {
                     GestureDetector(
                       onTap: () => controller.intentExplicit(Uri(
                           scheme: "sms",
-                          path: "089506277284",
+                          path: "${data.telepon}",
                           query: "body=hello")),
                       child: Icon(
                         Icons.message,
@@ -152,14 +157,14 @@ class RowLeads extends StatelessWidget {
                       width: 5.w,
                     ),
                     Text(
-                      "089506277284",
+                      "${data.telepon}",
                       style: TextStyle(
                         color: Colors.grey[600],
                       ),
                     )
                   ],
                 ),
-                Text("20 April 2022",
+                Text("${data.telepon}",
                     style: TextStyle(
                       fontSize: LayoutHelper.fontSmall,
                       color: Colors.grey[600],

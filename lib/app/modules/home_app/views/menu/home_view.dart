@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import 'package:get/get.dart';
+import 'package:monitoring_karyawan/app/modules/home_app/chart_model.dart';
+import 'package:monitoring_karyawan/app/modules/home_app/controllers/home_app_controller.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HomeView extends GetView {
+class HomeView extends GetView<HomeAppController> {
   final PageController pageController;
 
   HomeView(this.pageController);
@@ -15,19 +17,24 @@ class HomeView extends GetView {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Header(pageController: pageController),
+        Header(
+          pageController: pageController,
+          homeAppController: controller,
+        ),
         SizedBox(
           height: LayoutHelper.spaceVertical,
         ),
-        Body()
+        Body(
+          homeAppController: controller,
+        )
       ],
     );
   }
 }
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
-
+  const Body({Key? key, required this.homeAppController}) : super(key: key);
+  final HomeAppController homeAppController;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +53,9 @@ class Body extends StatelessWidget {
           SizedBox(
             height: LayoutHelper.spaceSizeBox,
           ),
-          ResponseProduct()
+          ResponseProduct(
+            homeAppController: homeAppController,
+          )
         ],
       ),
     );
@@ -54,19 +63,15 @@ class Body extends StatelessWidget {
 }
 
 class ResponseProduct extends StatelessWidget {
-  const ResponseProduct({Key? key}) : super(key: key);
-
+  const ResponseProduct({Key? key, required this.homeAppController})
+      : super(key: key);
+  final HomeAppController homeAppController;
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData('Berminat', 50, Colors.amber),
-      ChartData('Menolak', 34, Colors.blueGrey),
-      ChartData('Follow Up', 38, Colors.blue),
-    ];
     return Container(
-        child: SfCircularChart(series: <CircularSeries>[
+        child:   SfCircularChart(series: <CircularSeries>[
       PieSeries<ChartData, String>(
-          dataSource: chartData,
+          dataSource: homeAppController.chartData,
           enableTooltip: true,
           strokeColor: Colors.white,
           strokeWidth: 5.w,
@@ -85,37 +90,46 @@ class ResponseProduct extends StatelessWidget {
   }
 }
 
-class ChartData {
-  ChartData(this.x, this.y, this.color);
-  final String x;
-  final int y;
-  final Color color;
-}
-
 class StatusCustomerLead extends StatelessWidget {
-  const StatusCustomerLead({Key? key, required this.pageController})
+  const StatusCustomerLead(
+      {Key? key, required this.pageController, required this.homeAppController})
       : super(key: key);
   final PageController pageController;
+  final HomeAppController homeAppController;
+
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-        itemCount: 2,
-        padEnds: false,
-        controller: pageController,
-        itemBuilder: (context, index) {
-          return CardCustomerLead(
-              margin: index == 0
-                  ? EdgeInsets.only(
-                      left: LayoutHelper.spaceHorizontal,
-                      right: LayoutHelper.spaceSizeBoxHorizontal)
-                  : EdgeInsets.only(right: LayoutHelper.spaceHorizontal));
-        });
+    return PageView(
+      padEnds: false,
+      controller: pageController,
+      children: [
+        CardCustomerLead(
+          margin: EdgeInsets.only(
+              left: LayoutHelper.spaceHorizontal,
+              right: LayoutHelper.spaceSizeBoxHorizontal),
+          title: homeAppController.titleCard[0],
+          homeAppController: homeAppController,
+        ),
+        CardCustomerLead(
+          margin: EdgeInsets.only(right: LayoutHelper.spaceHorizontal),
+          title: homeAppController.titleCard[1],
+          homeAppController: homeAppController,
+        )
+      ],
+    );
   }
 }
 
 class CardCustomerLead extends StatelessWidget {
-  const CardCustomerLead({Key? key, required this.margin}) : super(key: key);
+  const CardCustomerLead({
+    Key? key,
+    required this.margin,
+    required this.homeAppController,
+    required this.title,
+  }) : super(key: key);
   final EdgeInsets margin;
+  final String title;
+  final HomeAppController homeAppController;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -143,19 +157,28 @@ class CardCustomerLead extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Sudah Kontak",
+            title,
             style: TextStyle(
                 fontSize: LayoutHelper.fontMedium, letterSpacing: 0.5),
           ),
-          Text(
-            "50%",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: LayoutHelper.fontMedium,
-                fontWeight: FontWeight.w600),
+          Obx(
+            () => Text(
+              homeAppController.loadSuccess()
+                  ? homeAppController.dashboard.value!.alreadyContact.toString()
+                  : "",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: LayoutHelper.fontMedium,
+                  fontWeight: FontWeight.w600),
+            ),
           ),
           LinearProgressIndicator(
-            value: 0.5,
+            value: homeAppController.loadSuccess()
+                ? int.parse(homeAppController
+                        .dashboard.value!.alreadyContactPercent
+                        .toString()) /
+                    100
+                : 0,
             valueColor:
                 AlwaysStoppedAnimation<Color>(LayoutHelper.primaryColor),
             backgroundColor: Colors.grey[300],
@@ -167,9 +190,11 @@ class CardCustomerLead extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-  const Header({Key? key, required this.pageController}) : super(key: key);
+  const Header(
+      {Key? key, required this.pageController, required this.homeAppController})
+      : super(key: key);
   final PageController pageController;
-
+  final HomeAppController homeAppController;
   @override
   Widget build(BuildContext context) {
     final dateNow = DateTime.now();
@@ -266,10 +291,14 @@ class Header extends StatelessWidget {
                     SizedBox(
                       height: LayoutHelper.spaceSizeBox,
                     ),
-                    Text("5000",
+                    Obx(() => Text(
+                        homeAppController.loadSuccess()
+                            ? homeAppController.dashboard.value!.pointOfSales
+                                .toString()
+                            : "",
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: LayoutHelper.fontLarge))
+                            fontSize: LayoutHelper.fontLarge)))
                   ],
                 ),
                 Column(
@@ -284,12 +313,14 @@ class Header extends StatelessWidget {
                     SizedBox(
                       height: LayoutHelper.spaceSizeBox,
                     ),
-                    Text(
-                      "Rp. 5.000",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: LayoutHelper.fontLarge),
-                    )
+                    Obx(() => Text(
+                          homeAppController.loadSuccess()
+                              ? "Rp. ${homeAppController.dashboard.value!.insentif.toString()}"
+                              : "",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: LayoutHelper.fontLarge),
+                        ))
                   ],
                 ),
               ],
@@ -301,7 +332,10 @@ class Header extends StatelessWidget {
           Container(
               width: MediaQuery.of(context).size.width,
               height: 100.h,
-              child: StatusCustomerLead(pageController: pageController))
+              child: StatusCustomerLead(
+                pageController: pageController,
+                homeAppController: homeAppController,
+              ))
         ],
       ),
     );

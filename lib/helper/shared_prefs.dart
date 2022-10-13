@@ -11,6 +11,11 @@ class SharedPrefs {
     return result;
   }
 
+  static Future<void> removePrefs() async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
   static Future<Data?> readPrefs() async {
     var prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> userMap = {};

@@ -1,11 +1,13 @@
 class Leads {
   bool? success;
   List<Data>? data;
+  String? message;
 
-  Leads({this.success, this.data});
+  Leads({this.success, this.data, this.message});
 
   Leads.fromJson(Map<String, dynamic> json) {
     success = json['success'];
+    message = json['message'];
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
@@ -17,16 +19,17 @@ class Leads {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['success'] = success;
+    data['message'] = message;
     data['data'] = data.map((key, value) => value.toJson().toList());
     return data;
   }
 }
 
 class Data {
-  int? id;
-  int? idCustomer;
-  int? idKaryawan;
-  int? isContact;
+  String? id;
+  String? idCustomer;
+  String? idKaryawan;
+  String? isContact;
   String? nik;
   String? namaCustomer;
   String? email;

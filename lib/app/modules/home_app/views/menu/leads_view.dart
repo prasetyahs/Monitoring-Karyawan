@@ -45,21 +45,25 @@ class LeadsView extends GetView<HomeAppController> {
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        child: ListView.builder(
-            itemCount: controller.leads.value.data?.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: LayoutHelper.spaceSizeBox),
-                child: GestureDetector(
-                  onTap: () => Get.toNamed(Routes.DETAIL_LEAD),
-                  child: Obx(() => RowLeads(
-                        controller: controller,
-                        data: controller.leads.value.data![index],
-                      )),
-                ),
-              );
-            }),
+        child: controller.leads.value.data != null
+            ? ListView.builder(
+                itemCount: controller.leads.value.data!.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: LayoutHelper.spaceSizeBox),
+                    child: GestureDetector(
+                      onTap: () => Get.toNamed(Routes.DETAIL_LEAD, arguments: {
+                        "lead": controller.leads.value.data![index]
+                      }),
+                      child: Obx(() => RowLeads(
+                            controller: controller,
+                            data: controller.leads.value.data![index],
+                          )),
+                    ),
+                  );
+                })
+            : Center(child: CircularProgressIndicator()),
       ),
     );
   }
@@ -115,25 +119,31 @@ class RowLeads extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () => controller.intentExplicit(
-                          Uri(scheme: "tel", path: "${data.telepon}")),
-                      child: Icon(
-                        CupertinoIcons.phone_fill,
-                        color: LayoutHelper.primaryColor,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: GestureDetector(
+                        onTap: () => controller.intentExplicit(
+                            Uri(scheme: "tel", path: "${data.telepon}")),
+                        child: Icon(
+                          CupertinoIcons.phone_fill,
+                          color: LayoutHelper.primaryColor,
+                        ),
                       ),
                     ),
                     SizedBox(
                       width: LayoutHelper.spaceHorizontal,
                     ),
-                    GestureDetector(
-                      onTap: () => controller.intentExplicit(Uri(
-                          scheme: "sms",
-                          path: "${data.telepon}",
-                          query: "body=hello")),
-                      child: Icon(
-                        Icons.message,
-                        color: Colors.amber,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: GestureDetector(
+                        onTap: () => controller.intentExplicit(Uri(
+                            scheme: "sms",
+                            path: "${data.telepon}",
+                            query: "body=hello")),
+                        child: Icon(
+                          Icons.message,
+                          color: Colors.amber,
+                        ),
                       ),
                     ),
                   ],

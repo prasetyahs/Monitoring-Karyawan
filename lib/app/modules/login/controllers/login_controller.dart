@@ -5,6 +5,7 @@ import 'package:monitoring_karyawan/app/modules/login/provider/login_provider.da
 import 'package:monitoring_karyawan/app/routes/app_pages.dart';
 import 'package:monitoring_karyawan/helper/shared_prefs.dart';
 import 'package:monitoring_karyawan/widget/loading_dialog.dart';
+import 'package:monitoring_karyawan/widget/messager_dialog.dart';
 
 class LoginController extends GetxController with StateMixin<LoginModel> {
   final LoginProvider loginProvider;
@@ -23,29 +24,24 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     super.onInit();
   }
 
-  void login() {
+  Future<void> login() async {
     showDialog(
         context: Get.context!,
         builder: (context) {
           return LoadingDialog();
         });
-    loginProvider.postLogin({
+
+    await loginProvider.postLogin({
       'nip': nipTextController.text,
       'password': passwordTextController.text
     }).then((value) async {
-      LoginModel? result = value.body;
-      if (result?.success == true) {
-        await SharedPrefs
-            .writePrefs(result!.data!)
-            .then((value) => Get.offAndToNamed(Routes.HOME_APP));
+      print(value.bodyString);
+      LoginModel loginModel = value.body;
+      if (loginModel.success!) {
+        await SharedPrefs.writePrefs(loginModel.data!)
+            .whenComplete(() => Get.offAndToNamed(Routes.HOME_APP));
       } else {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text(
-            result!.message.toString(),
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.redAccent,
-        ));
+        MessagerDialog.show(loginModel);
       }
       Get.back();
     }, onError: (err) {

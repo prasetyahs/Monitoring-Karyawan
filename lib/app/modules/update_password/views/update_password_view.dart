@@ -26,6 +26,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                 MonitoringTextField(
                     labelText: "Password Lama",
                     icon: Icons.password,
+                    controller: TextEditingController(),
                     isObsecure: false),
                 SizedBox(
                   height: LayoutHelper.spaceSizeBox,
@@ -33,6 +34,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                 MonitoringTextField(
                     labelText: "Password Baru",
                     icon: Icons.lock,
+                    controller: TextEditingController(),
                     isObsecure: false),
                 SizedBox(
                   height: LayoutHelper.spaceSizeBox,
@@ -40,6 +42,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                 MonitoringTextField(
                     labelText: "Konfirmasi Password",
                     icon: Icons.lock_open_outlined,
+                    controller: TextEditingController(),
                     isObsecure: false),
                 SizedBox(
                   height: LayoutHelper.spaceVertical,

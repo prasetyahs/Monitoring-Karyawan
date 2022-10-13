@@ -1,49 +1,53 @@
 class Dashboard {
-  bool? success;
-  Data? data;
+  Dashboard({
+    required this.success,
+    required this.data,
+  });
+  Dashboard.fromDashboard();
 
-  Dashboard({this.success, this.data});
+  late final bool success;
+  late final Data data;
 
   Dashboard.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? Data?.fromJson(json['data']) : null;
+    data = Data.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['success'] = success;
-    data['data'] = data.map((key, value) => value.toJson().toList());
-    return data;
+    final _data = <String, dynamic>{};
+    _data['success'] = success;
+    _data['data'] = data.toJson();
+    return _data;
   }
 }
 
 class Data {
-  int? alreadyContact;
-  String? alreadyContactPercent;
-  int? notContact;
-  int? notContactPercent;
-  int? pointOfSales;
-  int? insentif;
-  int? followUp;
-  String? followUpPercent;
-  int? interested;
-  String? interestedPercent;
-  int? refuse;
-  String? refusePercent;
-
-  Data(
-      {this.alreadyContact,
-      this.alreadyContactPercent,
-      this.notContact,
-      this.notContactPercent,
-      this.pointOfSales,
-      this.insentif,
-      this.followUp,
-      this.followUpPercent,
-      this.interested,
-      this.interestedPercent,
-      this.refuse,
-      this.refusePercent});
+  Data({
+    required this.alreadyContact,
+    required this.alreadyContactPercent,
+    required this.notContact,
+    required this.notContactPercent,
+    required this.pointOfSales,
+    required this.insentif,
+    required this.followUp,
+    required this.followUpPercent,
+    required this.interested,
+    required this.interestedPercent,
+    required this.refuse,
+    required this.refusePercent,
+  });
+  late final int alreadyContact;
+  late final String alreadyContactPercent;
+  late final int notContact;
+  late final int notContactPercent;
+  late final int pointOfSales;
+  late final int insentif;
+  late final int followUp;
+  late final String followUpPercent;
+  late final int interested;
+  late final String interestedPercent;
+  late final int refuse;
+  late final String refusePercent;
 
   Data.fromJson(Map<String, dynamic> json) {
     alreadyContact = json['already_contact'];
@@ -61,19 +65,19 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['already_contact'] = alreadyContact;
-    data['already_contact_percent'] = alreadyContactPercent;
-    data['not_contact'] = notContact;
-    data['not_contact_percent'] = notContactPercent;
-    data['point_of_sales'] = pointOfSales;
-    data['insentif'] = insentif;
-    data['follow_up'] = followUp;
-    data['follow_up_percent'] = followUpPercent;
-    data['interested'] = interested;
-    data['interested_percent'] = interestedPercent;
-    data['refuse'] = refuse;
-    data['refuse_percent'] = refusePercent;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['already_contact'] = alreadyContact;
+    _data['already_contact_percent'] = alreadyContactPercent;
+    _data['not_contact'] = notContact;
+    _data['not_contact_percent'] = notContactPercent;
+    _data['point_of_sales'] = pointOfSales;
+    _data['insentif'] = insentif;
+    _data['follow_up'] = followUp;
+    _data['follow_up_percent'] = followUpPercent;
+    _data['interested'] = interested;
+    _data['interested_percent'] = interestedPercent;
+    _data['refuse'] = refuse;
+    _data['refuse_percent'] = refusePercent;
+    return _data;
   }
 }

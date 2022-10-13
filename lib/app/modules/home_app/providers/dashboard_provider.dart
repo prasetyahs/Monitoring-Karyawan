@@ -15,7 +15,7 @@ class DashboardProvider extends GetConnect {
     httpClient.baseUrl = dotenv.get("CLIENT_URL");
   }
 
-  Future<Dashboard?> getDashboard(int id) async {
+  Future<Dashboard> getDashboard(id) async {
     final response = await get('dashboard/$id');
     return response.body;
   }

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/controllers/home_app_controller.dart';
 import 'package:monitoring_karyawan/app/routes/app_pages.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
+import 'package:monitoring_karyawan/helper/shared_prefs.dart';
 import 'package:monitoring_karyawan/widget/text_border.dart';
 
 class UserView extends GetView<HomeAppController> {
@@ -67,7 +68,10 @@ class UserView extends GetView<HomeAppController> {
           icon: CupertinoIcons.lock_circle_fill,
         ),
         TextBorder(
-          callback: () {},
+          callback: () {
+            SharedPrefs.removePrefs();
+            Get.offAndToNamed(Routes.LOGIN);
+          },
           title: "Keluar",
           icon: Icons.door_back_door_outlined,
         )

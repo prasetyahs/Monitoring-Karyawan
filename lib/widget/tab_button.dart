@@ -15,7 +15,7 @@ class TabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => callBack,
+        onTap: callBack,
         child:Container(
             padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
             decoration: BoxDecoration(

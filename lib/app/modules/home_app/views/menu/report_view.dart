@@ -33,7 +33,7 @@ class ReportView extends GetView<HomeAppController> {
                     controller: controller,
                     data: controller.leads.value.data![index]));
           },
-          itemCount: controller.leads.value.data?.length,
+          itemCount: controller.leads.value.data!.length,
         ));
   }
 }

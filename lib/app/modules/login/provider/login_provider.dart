@@ -12,9 +12,8 @@ class LoginProvider extends GetConnect {
       }
     };
     httpClient.baseUrl = dotenv.get("CLIENT_URL");
+    print(dotenv.get("CLIENT_URL"));
   }
 
-  Future<Response> postLogin(body) async =>
-      await post('auth', body);  
-
+  Future<Response> postLogin(body) async => await post('auth', body);
 }

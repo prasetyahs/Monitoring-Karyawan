@@ -19,12 +19,12 @@ class ProductView extends GetView<HomeAppController> {
                     context: context,
                     builder: (context) => AlertDialog(
                           title: Text("Persyaratan"),
-                          content: Text(state!.data![i].regulations.toString()),
+                          content: Text(state!.data[i].persyaratan.toString()),
                         )),
                 product: state!,
               );
             },
-            itemCount: state?.data!.length,
+            itemCount: state?.data.length,
           )),
       appbarColor: LayoutHelper.primaryColor,
       autoLeading: false,
@@ -81,7 +81,7 @@ class RowProduct extends StatelessWidget {
             ),
             Container(
               child: Text(
-                product.data![index].product.toString(),
+                product.data[index].product.toString(),
                 style: TextStyle(
                     color: Colors.grey, fontSize: 15.sp, letterSpacing: 0.2.w),
               ),

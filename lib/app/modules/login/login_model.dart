@@ -8,13 +8,13 @@ class LoginModel {
   LoginModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -23,19 +23,20 @@ class LoginModel {
 }
 
 class Data {
-  int? id;
+  String? id;
   String? nip;
   String? nik;
   String? namaKaryawan;
+  String? telepon;
   String? email;
   String? password;
   String? image;
   String? tglLahir;
-  int? idJabatan;
-  int? role;
-  String? rememberToken;
-  String? createdAt;
-  String? updatedAt;
+  String? idJabatan;
+  String? role;
+  Null? rememberToken;
+  Null? createdAt;
+  Null? updatedAt;
   String? jabatan;
 
   Data(
@@ -43,6 +44,7 @@ class Data {
       this.nip,
       this.nik,
       this.namaKaryawan,
+      this.telepon,
       this.email,
       this.password,
       this.image,
@@ -59,6 +61,7 @@ class Data {
     nip = json['nip'];
     nik = json['nik'];
     namaKaryawan = json['nama_karyawan'];
+    telepon = json['telepon'];
     email = json['email'];
     password = json['password'];
     image = json['image'];
@@ -72,22 +75,22 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['nip'] = nip;
-    data['nik'] = nik;
-    data['nama_karyawan'] = namaKaryawan;
-    data['email'] = email;
-    data['password'] = password;
-    data['image'] = image;
-    data['tgl_lahir'] = tglLahir;
-    data['id_jabatan'] = idJabatan;
-    data['role'] = role;
-    data['remember_token'] = rememberToken;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['jabatan'] = jabatan;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['nip'] = this.nip;
+    data['nik'] = this.nik;
+    data['nama_karyawan'] = this.namaKaryawan;
+    data['telepon'] = this.telepon;
+    data['email'] = this.email;
+    data['password'] = this.password;
+    data['image'] = this.image;
+    data['tgl_lahir'] = this.tglLahir;
+    data['id_jabatan'] = this.idJabatan;
+    data['role'] = this.role;
+    data['remember_token'] = this.rememberToken;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['jabatan'] = this.jabatan;
     return data;
   }
 }
-

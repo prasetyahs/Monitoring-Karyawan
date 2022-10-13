@@ -13,7 +13,7 @@ dependencies:
   get: 4.6.1
   flutter_screenutil: ^5.3.1
   flutter_svg: ^1.0.3
-  syncfusion_flutter_charts: ^20.1.55
+  pie_chart: ^5.3.2
   url_launcher: ^6.0.20
   flutter_dotenv: ^5.0.2
   shared_preferences: ^2.0.13

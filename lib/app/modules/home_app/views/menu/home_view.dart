@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/chart_model.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/controllers/home_app_controller.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class HomeView extends GetView<HomeAppController> {
   final PageController pageController;
@@ -68,25 +68,62 @@ class ResponseProduct extends StatelessWidget {
   final HomeAppController homeAppController;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child:   SfCircularChart(series: <CircularSeries>[
-      PieSeries<ChartData, String>(
-          dataSource: homeAppController.chartData,
-          enableTooltip: true,
-          strokeColor: Colors.white,
-          strokeWidth: 5.w,
-          dataLabelSettings: DataLabelSettings(
-              labelIntersectAction: LabelIntersectAction.none,
-              labelPosition: ChartDataLabelPosition.outside,
-              connectorLineSettings: ConnectorLineSettings(
-                  type: ConnectorType.curve, length: '10%'),
-              isVisible: true),
-          dataLabelMapper: (ChartData data, _) =>
-              data.x + "\n" + data.y.toString() + "%",
-          pointColorMapper: (ChartData data, _) => data.color,
-          xValueMapper: (ChartData data, _) => data.x,
-          yValueMapper: (ChartData data, _) => data.y),
-    ]));
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 20.h),
+      child: GetBuilder<HomeAppController>(
+          builder: (controller) => controller.dataChart.isNotEmpty
+              ? PieChart(
+                  dataMap: controller.dataChart,
+                  animationDuration: Duration(milliseconds: 800),
+                  chartLegendSpacing: 32,
+                  chartRadius: MediaQuery.of(context).size.width / 3.2,
+                  colorList: [Colors.blue, Colors.redAccent, Colors.blueGrey],
+                  initialAngleInDegree: 0,
+                  chartType: ChartType.ring,
+                  ringStrokeWidth: 32,
+                  centerText: "Response",
+                  legendOptions: LegendOptions(
+                    showLegendsInRow: false,
+                    legendPosition: LegendPosition.right,
+                    showLegends: true,
+                    legendShape: BoxShape.circle,
+                    legendTextStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  chartValuesOptions: ChartValuesOptions(
+                    showChartValueBackground: true,
+                    showChartValues: true,
+                    showChartValuesInPercentage: false,
+                    showChartValuesOutside: false,
+                    decimalPlaces: 1,
+                  ),
+                  // gradientList: ---To add gradient colors---
+                  // emptyColorGradient: ---Empty Color gradient---
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                )),
+    );
+    // return Center(
+    //     child: SfCircularChart(series: <CircularSeries>[
+    //   PieSeries<ChartData, String>(
+    //       dataSource: homeAppController.chartData,
+    //       enableTooltip: true,
+    //       strokeColor: Colors.white,
+    //       strokeWidth: 5.w,
+    //       dataLabelSettings: DataLabelSettings(
+    //           labelIntersectAction: LabelIntersectAction.none,
+    //           labelPosition: ChartDataLabelPosition.outside,
+    //           // connectorLineSettings: ConnectorLineSettings(
+    //           //     type: ConnectorType.curve, length: ''),
+    //           isVisible: true),
+    //       dataLabelMapper: (ChartData data, _) =>
+    //           data.x + "\n" + data.y.toString() + "%",
+    //       pointColorMapper: (ChartData data, _) => data.color,
+    //       xValueMapper: (ChartData data, _) => data.x,
+    //       yValueMapper: (ChartData data, _) => data.y),
+    // ]));
   }
 }
 
@@ -164,7 +201,8 @@ class CardCustomerLead extends StatelessWidget {
           Obx(
             () => Text(
               homeAppController.loadSuccess()
-                  ? homeAppController.dashboard.value!.alreadyContact.toString()
+                  ? homeAppController.dashboard.value.data.alreadyContact
+                      .toString()
                   : "",
               style: TextStyle(
                   color: Colors.black,
@@ -175,7 +213,7 @@ class CardCustomerLead extends StatelessWidget {
           LinearProgressIndicator(
             value: homeAppController.loadSuccess()
                 ? int.parse(homeAppController
-                        .dashboard.value!.alreadyContactPercent
+                        .dashboard.value.data.alreadyContactPercent
                         .toString()) /
                     100
                 : 0,
@@ -228,9 +266,7 @@ class Header extends StatelessWidget {
                     ),
                     Text(
                       DateFormat("EEEE, MMMM yyyy").format(dateNow),
-                      style: TextStyle(
-                          fontSize: LayoutHelper.fontSmall,
-                          color: LayoutHelper.greyColor),
+                      style: TextStyle(fontSize: 12.sp, color: Colors.white),
                     ),
                   ],
                 ),
@@ -293,7 +329,8 @@ class Header extends StatelessWidget {
                     ),
                     Obx(() => Text(
                         homeAppController.loadSuccess()
-                            ? homeAppController.dashboard.value!.pointOfSales
+                            ? homeAppController
+                                .dashboard.value.data.pointOfSales
                                 .toString()
                             : "",
                         style: TextStyle(
@@ -315,7 +352,7 @@ class Header extends StatelessWidget {
                     ),
                     Obx(() => Text(
                           homeAppController.loadSuccess()
-                              ? "Rp. ${homeAppController.dashboard.value!.insentif.toString()}"
+                              ? "Rp. ${homeAppController.dashboard.value.data.insentif.toString()}"
                               : "",
                           style: TextStyle(
                               color: Colors.white,

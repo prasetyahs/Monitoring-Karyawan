@@ -17,6 +17,6 @@ class HomeAppBinding extends Bindings {
         productProvider: Get.find(),
         dashboardProvider: Get.find(),
         leadsProvider: Get.find(),
-        leadsController: Get.find()));
+        ));
   }
 }

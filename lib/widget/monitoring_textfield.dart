@@ -8,7 +8,7 @@ class MonitoringTextField extends StatelessWidget {
       required this.labelText,
       required this.icon,
       required this.isObsecure,
-      this.controller,
+      required this.controller,
       this.iconTap,
       this.textFieldTap,
       this.readOnly,
@@ -17,12 +17,12 @@ class MonitoringTextField extends StatelessWidget {
   final String labelText;
   final IconData icon;
   final bool isObsecure;
-  final controller;
+  final TextEditingController controller;
   final iconTap, textFieldTap, readOnly;
   final textInputType;
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       onTap: textFieldTap,
       keyboardType: textInputType ?? TextInputType.text,

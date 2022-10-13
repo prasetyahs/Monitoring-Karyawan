@@ -1,51 +1,54 @@
 class Product {
-  bool? success;
-  List<Data>? data;
+  Product({
+    required this.success,
+    required this.data,
+  });
+  late final bool success;
+  late final List<Data> data;
 
-  Product({this.success, this.data});
-
+  Product.fromProduct();
   Product.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data?.add(Data.fromJson(v));
-      });
-    }
+    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['success'] = success;
-    data['data'] = data.map((key, value) => value.toJson().toList());
-    return data;
+    final _data = <String, dynamic>{};
+    _data['success'] = success;
+    _data['data'] = data.map((e) => e.toJson()).toList();
+    return _data;
   }
 }
 
 class Data {
-  int? id;
-  String? product;
-  String? icon;
-  int? idCategoryProduct;
-  String? regulations;
-
-  Data({this.id, this.product, this.icon, this.idCategoryProduct,this.regulations});
+  Data({
+    required this.id,
+    required this.product,
+    required this.icon,
+    required this.persyaratan,
+    required this.idCategoryProduct,
+  });
+  late final int id;
+  late final String product;
+  late final String icon;
+  late final String persyaratan;
+  late final String idCategoryProduct;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     product = json['product'];
     icon = json['icon'];
-    regulations = json['persyaratan'];
+    persyaratan = json['persyaratan'];
     idCategoryProduct = json['id_category_product'];
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['product'] = product;
-    data['icon'] = icon;
-    data['persyaratan'] = regulations;
-    data['id_category_product'] = idCategoryProduct;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['product'] = product;
+    _data['icon'] = icon;
+    _data['persyaratan'] = persyaratan;
+    _data['id_category_product'] = idCategoryProduct;
+    return _data;
   }
 }

@@ -13,12 +13,13 @@ class LeadsProvider extends GetConnect {
     httpClient.baseUrl = dotenv.get("CLIENT_URL");
   }
 
-  Future<Leads?> getLeads(int id) async {
+  Future<Leads> getLeads(id) async {
     final response = await get('leads/$id');
+    print(response.bodyString);
     return response.body;
   }
 
-  Future<Response<Leads>> postLeads(Leads leads) async =>
-      await post('leads', leads);
+  Future<Response> postLeads(body, id) async => await post('leads/2', body);
+
   Future<Response> deleteLeads(int id) async => await delete('leads/$id');
 }

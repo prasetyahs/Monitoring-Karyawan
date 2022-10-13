@@ -11,11 +11,15 @@ import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:monitoring_karyawan/widget/monitoring_button.dart';
 import 'package:monitoring_karyawan/widget/monitoring_drop.dart';
 
+import '../controllers/detail_lead_controller.dart';
+
 class CustomerDetailTabView extends GetView {
   final List<mLeadProduct.Data> leadsProduct;
   final isOffer;
   final List<mProduct.Data> products;
-  CustomerDetailTabView(this.leadsProduct, this.products, {this.isOffer = 0});
+  final DetailLeadController controller;
+  CustomerDetailTabView(this.leadsProduct, this.products, this.controller,
+      {this.isOffer = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,7 @@ class CustomerDetailTabView extends GetView {
                 leadsProduct: leadsProduct[index],
                 isOffer: this.isOffer,
                 product: products,
+                controller: controller,
               );
             },
             itemCount: leadsProduct.length,
@@ -41,11 +46,13 @@ class CardRow extends StatelessWidget {
   final mLeadProduct.Data leadsProduct;
   final List<mProduct.Data> product;
   final int isOffer;
+  final controller;
   const CardRow(
       {Key? key,
       required this.leadsProduct,
       this.isOffer = 0,
-      required this.product})
+      required this.product,
+      this.controller})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -102,7 +109,8 @@ class CardRow extends StatelessWidget {
                                       leadsProduct.product!.toUpperCase())),
                               content: MonitoringDrop(
                                 hint: "Pilih Produk",
-                                data: product,
+                                data: product, controller: this.controller,
+                                value: '',
                                 // controller:
                               ),
                               actions: [

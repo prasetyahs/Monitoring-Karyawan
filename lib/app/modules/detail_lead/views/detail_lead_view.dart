@@ -205,6 +205,7 @@ class DetailLeadView extends GetView<DetailLeadController> {
                       ? CustomerDetailTabView(
                           this.controller.productLeadsOffer.value.data!,
                           this.controller.product.value.data,
+                          this.controller,
                           isOffer: 1,
                         )
                       : Center(
@@ -212,12 +213,17 @@ class DetailLeadView extends GetView<DetailLeadController> {
                         ),
                   this.controller.productLeadsHistory.value.data != null
                       ? CustomerDetailTabView(
-                          this.controller.productLeadsHistory.value.data!, [])
+                          this.controller.productLeadsHistory.value.data!,
+                          [],
+                          this.controller,
+                        )
                       : Center(child: CircularProgressIndicator()),
                   this.controller.productLeadsPortofolio.value.data != null
                       ? CustomerDetailTabView(
                           this.controller.productLeadsPortofolio.value.data!,
-                          [])
+                          [],
+                          this.controller,
+                        )
                       : Center(
                           child: CircularProgressIndicator(),
                         )

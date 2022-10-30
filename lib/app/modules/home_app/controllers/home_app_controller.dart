@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:monitoring_karyawan/app/modules/home_app/controllers/leads_controller.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/dashboard_model.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/data/DataLeads.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/leads_model.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/product_model.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/providers/dashboard_provider.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/providers/leads_provider.dart';
-import 'package:monitoring_karyawan/app/modules/detail_lead/provider/product_leads_provider.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/providers/product_provider.dart';
 import 'package:monitoring_karyawan/app/modules/login/login_model.dart'
     as login;
+import 'package:intl/intl.dart';
 
 import 'package:monitoring_karyawan/helper/shared_prefs.dart';
 import 'package:monitoring_karyawan/helper/value_helper.dart';
@@ -25,8 +24,9 @@ class HomeAppController extends GetxController with StateMixin<Product> {
   final ProductProvider productProvider;
   final DashboardProvider dashboardProvider;
   final LeadsProvider leadsProvider;
-  final Rx<login.Data> dataLogin = login.Data().obs;
+  final Rx<login.LoginModel> dataLogin = login.LoginModel().obs;
   final leads = Leads().obs;
+  final reportLeads = Leads().obs;
   final dashboard = Dashboard.fromDashboard().obs;
   final titleCard = ["Sudah Kotak", "Belum Kontak"].obs;
   final List<TextEditingController> controllersLeads = [
@@ -41,20 +41,48 @@ class HomeAppController extends GetxController with StateMixin<Product> {
 
   final _loadSuccess = false.obs;
   final Map<String, double> dataChart = {};
+  final intensifFormatter = "0".obs;
+  HomeAppController({
+    required this.dashboardProvider,
+    required this.productProvider,
+    required this.leadsProvider,
+  });
 
-  HomeAppController(
-      {required this.dashboardProvider,
-      required this.productProvider,
-      required this.leadsProvider,
-      });
-  Future<Leads> loadLeads(id) async => await leadsProvider.getLeads(id);
+
+  void loadLeads(DateTime startDate, DateTime endDate) async {
+    showDialog(
+        context: Get.context!,
+        builder: (context) {
+          return LoadingDialog();
+        });
+    var data = await SharedPrefs.readPrefs();
+    var date = DateFormat("yyyy-MM-dd");
+    await leadsProvider
+        .getLeads(data?.id,
+            startData: date.format(startDate).toString(),
+            endDate: date.format(endDate).toString())
+        .then((value) {
+      print(value);
+      this.leads.value = value;
+      update();
+    }).whenComplete(() => Get.back());
+  }
 
   final gender = "".obs;
   void setGender(value) {
     gender.value = value;
   }
 
-  void createProductLeads() {}
+  void loadReportLeads({String startDate = "", String endDate = ""}) async {
+    var data = await SharedPrefs.readPrefs();
+    print("TEST $startDate");
+    await leadsProvider
+        .getLeads(data?.id, startData: startDate, endDate: endDate)
+        .then((value) {
+      this.reportLeads.value = value;
+      update();
+    });
+  }
 
   Future<void> storeLeads() async {
     var data = await SharedPrefs.readPrefs();
@@ -80,11 +108,14 @@ class HomeAppController extends GetxController with StateMixin<Product> {
       'jenis_kelamin': inputLeads.jenisKelamin,
       'telepon': inputLeads.telepon,
       'email': inputLeads.email
-    }, data?.id).then((value) {
+    }, data?.id).then((value) async {
       Leads leads = value.body;
       print(value.bodyString);
       Get.back();
       MessagerDialog.show(leads);
+      var data = await SharedPrefs.readPrefs();
+      this.dataLogin.value = data!;
+      this.leads.value = (await leadsProvider.getLeads(data.id));
     }).onError((error, stackTrace) {
       print(error);
     });
@@ -98,18 +129,30 @@ class HomeAppController extends GetxController with StateMixin<Product> {
     var data = await SharedPrefs.readPrefs();
     this.dataLogin.value = data!;
     this.leads.value = (await leadsProvider.getLeads(data.id));
-    this.dashboard.value =
-        await this.dashboardProvider.getDashboard(data.id.toString());
+    loadReportLeads();
+    await this.loadDashboard(data.id);
+    final formatter = NumberFormat.simpleCurrency(locale: 'id_ID');
+    intensifFormatter.value = formatter.format(
+        this.dashboard.value.data.insentif.runtimeType == String
+            ? int.parse(this.dashboard.value.data.insentif)
+            : this.dashboard.value.data.insentif);
     _loadSuccess.value = true;
     this.dataChart.addAll({
-      "Follow Up":
-          double.parse(this.dashboard.value.data.followUpPercent.toString()),
-      "Berminat":
-          double.parse(this.dashboard.value.data.interestedPercent.toString()),
       "Menolak":
           double.parse(this.dashboard.value.data.refusePercent.toString()),
+      "Berminat":
+          double.parse(this.dashboard.value.data.interestedPercent.toString()),
+      "Follow Up":
+          double.parse(this.dashboard.value.data.followUpPercent.toString()),
     });
     update();
+  }
+
+  Future<void> loadDashboard(id) async {
+    await this.dashboardProvider.getDashboard(id.toString()).then((value) {
+      this.dashboard.value = value;
+      // return value;
+    });
   }
 
   Future<bool> intentExplicit(Uri schema) async {

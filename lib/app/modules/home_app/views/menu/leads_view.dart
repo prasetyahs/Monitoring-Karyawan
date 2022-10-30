@@ -11,6 +11,8 @@ import 'package:monitoring_karyawan/app/routes/app_pages.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:monitoring_karyawan/widget/main_layout.dart';
 
+import '../../../../../widget/not_found.dart';
+
 class LeadsView extends GetView<HomeAppController> {
   @override
   Widget build(BuildContext context) {
@@ -31,22 +33,33 @@ class LeadsView extends GetView<HomeAppController> {
       ),
       listAction: [
         IconButton(
-            onPressed: () => showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1969, 1, 1),
-                lastDate: DateTime.now()),
+            onPressed: () => showDateRangePicker(
+                        context: context,
+                        firstDate: DateTime(1999),
+                        lastDate: DateTime.now())
+                    .then((value) {
+                  controller.loadLeads(value!.start, value.end);
+                  return value;
+                }),
             icon: Icon(CupertinoIcons.calendar_today))
       ],
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        child: controller.leads.value.data != null
-            ? ListView.builder(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          child: Obx(() {
+            if (!controller.loadSuccess()) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (controller.leads.value.data!.length == 0) {
+              return Center(
+                child: NotFound(),
+              );
+            }
+            return ListView.builder(
                 itemCount: controller.leads.value.data!.length,
                 itemBuilder: (context, index) {
                   return Padding(
@@ -56,15 +69,14 @@ class LeadsView extends GetView<HomeAppController> {
                       onTap: () => Get.toNamed(Routes.DETAIL_LEAD, arguments: {
                         "lead": controller.leads.value.data![index]
                       }),
-                      child: Obx(() => RowLeads(
-                            controller: controller,
-                            data: controller.leads.value.data![index],
-                          )),
+                      child: RowLeads(
+                        controller: controller,
+                        data: controller.leads.value.data![index],
+                      ),
                     ),
                   );
-                })
-            : Center(child: CircularProgressIndicator()),
-      ),
+                });
+          })),
     );
   }
 }

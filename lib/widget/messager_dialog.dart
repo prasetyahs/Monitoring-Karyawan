@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:monitoring_karyawan/app/modules/login/login_model.dart';
+import 'package:monitoring_karyawan/helper/layout_helper.dart';
 
 class MessagerDialog {
   static ScaffoldFeatureController show(model) =>
@@ -9,6 +9,6 @@ class MessagerDialog {
           model.message.toString(),
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: model.success! ? Colors.greenAccent : Colors.red,
+        backgroundColor: model.success! ? LayoutHelper.primaryColor : Colors.red,
       ));
 }

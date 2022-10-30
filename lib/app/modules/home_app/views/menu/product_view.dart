@@ -6,26 +6,29 @@ import 'package:monitoring_karyawan/app/modules/home_app/controllers/home_app_co
 import 'package:monitoring_karyawan/app/modules/home_app/product_model.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:monitoring_karyawan/widget/main_layout.dart';
+import 'package:monitoring_karyawan/widget/not_found.dart';
 
 class ProductView extends GetView<HomeAppController> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      body: controller.obx((state) => ListView.builder(
-            itemBuilder: (c, i) {
-              return RowProduct(
-                index: i,
-                callback: () => showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          title: Text("Persyaratan"),
-                          content: Text(state!.data[i].persyaratan.toString()),
-                        )),
-                product: state!,
-              );
-            },
-            itemCount: state?.data.length,
-          )),
+      body: controller.obx((state) => state!.data.isNotEmpty
+          ? ListView.builder(
+              itemBuilder: (c, i) {
+                return RowProduct(
+                  index: i,
+                  callback: () => showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: Text("Persyaratan"),
+                            content: Text(state.data[i].persyaratan.toString()),
+                          )),
+                  product: state,
+                );
+              },
+              itemCount: state.data.length,
+            )
+          : Center(child: NotFound())),
       appbarColor: LayoutHelper.primaryColor,
       autoLeading: false,
       foregroundColor: Colors.white,

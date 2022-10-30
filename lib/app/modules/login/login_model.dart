@@ -1,29 +1,5 @@
 class LoginModel {
-  bool? success;
-  String? message;
-  Data? data;
-
-  LoginModel({this.success, this.message, this.data});
-
-  LoginModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
-  String? id;
+  dynamic id;
   String? nip;
   String? nik;
   String? namaKaryawan;
@@ -34,12 +10,9 @@ class Data {
   String? tglLahir;
   String? idJabatan;
   String? role;
-  Null? rememberToken;
-  Null? createdAt;
-  Null? updatedAt;
   String? jabatan;
 
-  Data(
+  LoginModel(
       {this.id,
       this.nip,
       this.nik,
@@ -51,12 +24,9 @@ class Data {
       this.tglLahir,
       this.idJabatan,
       this.role,
-      this.rememberToken,
-      this.createdAt,
-      this.updatedAt,
       this.jabatan});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  LoginModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nip = json['nip'];
     nik = json['nik'];
@@ -68,9 +38,6 @@ class Data {
     tglLahir = json['tgl_lahir'];
     idJabatan = json['id_jabatan'];
     role = json['role'];
-    rememberToken = json['remember_token'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
     jabatan = json['jabatan'];
   }
 
@@ -87,9 +54,6 @@ class Data {
     data['tgl_lahir'] = this.tglLahir;
     data['id_jabatan'] = this.idJabatan;
     data['role'] = this.role;
-    data['remember_token'] = this.rememberToken;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
     data['jabatan'] = this.jabatan;
     return data;
   }

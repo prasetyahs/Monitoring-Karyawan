@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:monitoring_karyawan/app/modules/detail_lead/program_model.dart';
 import 'package:monitoring_karyawan/app/modules/detail_lead/views/customer_detail_tab_view.dart';
 
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
@@ -10,9 +11,9 @@ import 'package:monitoring_karyawan/widget/icon_title.dart';
 import 'package:monitoring_karyawan/widget/main_layout.dart';
 import 'package:monitoring_karyawan/widget/monitoring_button.dart';
 
-import '../../../../widget/monitoring_drop.dart';
 import '../../../../widget/tab_button.dart';
 import '../controllers/detail_lead_controller.dart';
+import '../program_model.dart';
 
 class DetailLeadView extends GetView<DetailLeadController> {
   @override
@@ -84,7 +85,7 @@ class DetailLeadView extends GetView<DetailLeadController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TabButton(
-                        color: this.controller.listColor.value[0],
+                        color: this.controller.listColor[0],
                         title: "Penawaran",
                         textColor: Colors.white,
                         callBack: () {
@@ -100,7 +101,7 @@ class DetailLeadView extends GetView<DetailLeadController> {
                         },
                       ),
                       TabButton(
-                        color: this.controller.listColor.value[1],
+                        color: this.controller.listColor[1],
                         title: "Riwayat",
                         textColor: Colors.white,
                         callBack: () {
@@ -116,7 +117,7 @@ class DetailLeadView extends GetView<DetailLeadController> {
                         },
                       ),
                       TabButton(
-                        color: this.controller.listColor.value[2],
+                        color: this.controller.listColor[2],
                         title: "Portofolio",
                         textColor: Colors.white,
                         callBack: () {
@@ -153,36 +154,58 @@ class DetailLeadView extends GetView<DetailLeadController> {
                             callback: () => showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return this.controller.program.value.data !=
-                                          null
-                                      ? AlertDialog(
-                                          title: Center(
-                                              child: Text("Create Leads")),
-                                          content: MonitoringDrop(
-                                              value: this
+                                  return AlertDialog(
+                                    title: Center(child: Text("Create Leads")),
+                                    content: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Obx(() => DropdownButton<Data>(
+                                              icon: const Icon(
+                                                  Icons.arrow_drop_down),
+                                              isExpanded: true,
+                                              elevation: 16,
+                                              hint: Text("Pilih Program"),
+                                              style: const TextStyle(
+                                                  color: Colors.deepPurple),
+                                              underline: Container(
+                                                  height: 1.0,
+                                                  color: Colors.grey[500]),
+                                              value: controller.programData
+                                                          .value.program !=
+                                                      null
+                                                  ? controller.programData.value
+                                                  : null,
+                                              onChanged: (val) => this
                                                   .controller
-                                                  .idProgram
-                                                  .value
-                                                  .toString(),
-                                              hint: "Pilih Program",
-                                              data: this
-                                                  .controller
-                                                  .program
-                                                  .value
-                                                  .data!,
-                                              controller: this.controller),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () => Get.back(),
-                                                child: Text("Batal")),
-                                            TextButton(
-                                                onPressed: () {},
-                                                child: Text("Simpan")),
-                                          ],
-                                        )
-                                      : Center(
-                                          child: CircularProgressIndicator(),
-                                        );
+                                                  .changeValue(val!),
+                                              items: controller.program.value
+                                                          .data!.length >
+                                                      0
+                                                  ? controller
+                                                      .program.value.data!
+                                                      .where((element) =>
+                                                          element.program !=
+                                                          null)
+                                                      .map((value) =>
+                                                          DropdownMenuItem<
+                                                              Data>(
+                                                            value: value,
+                                                            child: Text(
+                                                                value.program!),
+                                                          ))
+                                                      .toList()
+                                                  : [],
+                                            ))),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () => Get.back(),
+                                          child: Text("Batal")),
+                                      TextButton(
+                                          onPressed: () =>
+                                              controller.storeProductLeads(),
+                                          child: Text("Simpan")),
+                                    ],
+                                  );
                                 }),
                           ),
                         ),
@@ -216,6 +239,7 @@ class DetailLeadView extends GetView<DetailLeadController> {
                           this.controller.productLeadsHistory.value.data!,
                           [],
                           this.controller,
+                          isHistory: 1,
                         )
                       : Center(child: CircularProgressIndicator()),
                   this.controller.productLeadsPortofolio.value.data != null
@@ -223,6 +247,7 @@ class DetailLeadView extends GetView<DetailLeadController> {
                           this.controller.productLeadsPortofolio.value.data!,
                           [],
                           this.controller,
+                          isHistory: 2,
                         )
                       : Center(
                           child: CircularProgressIndicator(),

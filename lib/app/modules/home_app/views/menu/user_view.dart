@@ -26,7 +26,7 @@ class UserView extends GetView<HomeAppController> {
                 height: 50.h,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/component/example.jpeg"),
+                        image: AssetImage("assets/component/nopicture_man.jpeg"),
                         fit: BoxFit.cover),
                     shape: BoxShape.circle,
                     color: Colors.amber),
@@ -61,11 +61,13 @@ class UserView extends GetView<HomeAppController> {
           callback: () => Get.toNamed(Routes.UPDATE_PROFILE),
           title: "Ubah Informasi Akun",
           icon: CupertinoIcons.profile_circled,
+          fontSize: LayoutHelper.fontSmall,
         ),
         TextBorder(
           callback: () => Get.toNamed(Routes.UPDATE_PASSWORD),
           title: "Ubah Password",
           icon: CupertinoIcons.lock_circle_fill,
+          fontSize: LayoutHelper.fontSmall,
         ),
         TextBorder(
           callback: () {
@@ -74,6 +76,7 @@ class UserView extends GetView<HomeAppController> {
           },
           title: "Keluar",
           icon: Icons.door_back_door_outlined,
+          fontSize: LayoutHelper.fontSmall,
         )
       ],
     );

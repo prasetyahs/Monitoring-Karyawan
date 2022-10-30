@@ -5,10 +5,11 @@ import 'package:monitoring_karyawan/helper/shared_prefs.dart';
 class HomeController extends GetxController {
   @override
   void onInit() async {
-    await SharedPrefs.readPrefs().then((value) {
-      print(value?.nik);
+    await SharedPrefs.readPrefs().then((value) async {
       if (value?.nik != null) {
-        Get.offAndToNamed(Routes.HOME_APP);
+        return value?.role == "1"
+            ? Get.offAndToNamed(Routes.ADMIN_HOME)
+            : Get.offAndToNamed(Routes.HOME_APP);
       }
     });
     super.onInit();

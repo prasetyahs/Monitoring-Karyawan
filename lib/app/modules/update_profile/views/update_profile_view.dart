@@ -63,19 +63,11 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
             SizedBox(
               height: LayoutHelper.spaceSizeBox,
             ),
-            MonitoringTextField(
-                controller: controller.inputController[4],
-                labelText: "Alamat",
-                icon: Icons.location_on,
-                isObsecure: false),
-            SizedBox(
-              height: LayoutHelper.spaceVertical,
-            ),
             SizedBox(
               height: LayoutHelper.spaceSizeBox,
             ),
             MonitoringButton(
-              callback: () {},
+              callback: () =>controller.updateProfile(),
               title: "Simpan",
               color: Colors.orange[600],
               border: Border.all(color: Colors.transparent),

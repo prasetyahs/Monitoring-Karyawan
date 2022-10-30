@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import 'package:get/get.dart';
-import 'package:monitoring_karyawan/app/modules/home_app/chart_model.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/controllers/home_app_controller.dart';
 import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -77,7 +76,7 @@ class ResponseProduct extends StatelessWidget {
                   animationDuration: Duration(milliseconds: 800),
                   chartLegendSpacing: 32,
                   chartRadius: MediaQuery.of(context).size.width / 3.2,
-                  colorList: [Colors.blue, Colors.redAccent, Colors.blueGrey],
+                  colorList: [Colors.red, Colors.blue, Colors.blueGrey],
                   initialAngleInDegree: 0,
                   chartType: ChartType.ring,
                   ringStrokeWidth: 32,
@@ -284,7 +283,7 @@ class Header extends StatelessWidget {
                                     child: Text("Close"))
                               ],
                               content:
-                                  Image.asset("assets/component/example.jpeg"));
+                                  Image.asset("assets/component/nopicture_man.jpeg"));
                         });
                   },
                   child: Container(
@@ -292,7 +291,7 @@ class Header extends StatelessWidget {
                     height: 45.h,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("assets/component/example.jpeg"),
+                            image: AssetImage("assets/component/nopicture_man.jpeg"),
                             fit: BoxFit.cover),
                         shape: BoxShape.circle,
                         color: Colors.amber),
@@ -339,7 +338,7 @@ class Header extends StatelessWidget {
                   ],
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       "Estimasi Intentif",
@@ -350,14 +349,14 @@ class Header extends StatelessWidget {
                     SizedBox(
                       height: LayoutHelper.spaceSizeBox,
                     ),
-                    Obx(() => Text(
-                          homeAppController.loadSuccess()
-                              ? "Rp. ${homeAppController.dashboard.value.data.insentif.toString()}"
-                              : "",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: LayoutHelper.fontLarge),
-                        ))
+                    Obx(() {
+                      return Text(
+                        homeAppController.loadSuccess() ? "${homeAppController.intensifFormatter}" : "",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: LayoutHelper.fontLarge),
+                      );
+                    })
                   ],
                 ),
               ],

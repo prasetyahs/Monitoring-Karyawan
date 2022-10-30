@@ -3,11 +3,17 @@ import 'package:monitoring_karyawan/helper/layout_helper.dart';
 import 'package:monitoring_karyawan/widget/icon_title.dart';
 
 class TextBorder extends StatelessWidget {
-  const TextBorder({Key? key, required this.title, required this.icon, this.callback})
+  const TextBorder(
+      {Key? key,
+      required this.title,
+      required this.icon,
+      this.callback,
+      this.fontSize})
       : super(key: key);
   final String title;
   final callback;
   final IconData icon;
+  final fontSize;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -19,8 +25,7 @@ class TextBorder extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border(
                   bottom: BorderSide(color: Colors.grey.withOpacity(0.5)))),
-          child: IconTitle(
-              title: title, icon: icon, fontSize: LayoutHelper.fontMedium)),
+          child: IconTitle(title: title, icon: icon, fontSize: fontSize)),
     );
   }
 }

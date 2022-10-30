@@ -39,14 +39,14 @@ class Data {
   late final int alreadyContact;
   late final String alreadyContactPercent;
   late final int notContact;
-  late final int notContactPercent;
-  late final int pointOfSales;
-  late final int insentif;
-  late final int followUp;
+  late final notContactPercent;
+  late final pointOfSales;
+  late final insentif;
+  late final followUp;
   late final String followUpPercent;
-  late final int interested;
+  late final interested;
   late final String interestedPercent;
-  late final int refuse;
+  late final refuse;
   late final String refusePercent;
 
   Data.fromJson(Map<String, dynamic> json) {

@@ -18,6 +18,8 @@ class Product {
     _data['data'] = data.map((e) => e.toJson()).toList();
     return _data;
   }
+
+  obx(Function(dynamic state) param0) {}
 }
 
 class Data {
@@ -34,11 +36,13 @@ class Data {
   late final String persyaratan;
   late final String idCategoryProduct;
 
+  Data.fromData();
+
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     product = json['product'];
     icon = json['icon'];
-    persyaratan = json['persyaratan'];
+    persyaratan = json['persyaratan'] != null ? json['persyaratan'] : null;
     idCategoryProduct = json['id_category_product'];
   }
 

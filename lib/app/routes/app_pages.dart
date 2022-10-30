@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:monitoring_karyawan/app/modules/admin/bindings/admin_binding.dart';
+import 'package:monitoring_karyawan/app/modules/admin/views/admin_view.dart';
+import 'package:monitoring_karyawan/app/modules/head_sales/views/home_view.dart';
 
 import '../modules/detail_lead/bindings/detail_lead_binding.dart';
 import '../modules/detail_lead/views/detail_lead_view.dart';
@@ -58,5 +61,10 @@ class AppPages {
       page: () => UpdatePasswordView(),
       binding: UpdatePasswordBinding(),
     ),
+    GetPage(name: _Paths.HOME_ADMIN, page: () => HomeViewAdmin()),
+    GetPage(
+        name: _Paths.ADMIN_HOME,
+        bindings: [HomeAppBinding(), AdminBinding()],
+        page: () => AdminView())
   ];
 }

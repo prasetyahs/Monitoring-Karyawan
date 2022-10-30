@@ -12,11 +12,13 @@ class MonitoringTextField extends StatelessWidget {
       this.iconTap,
       this.textFieldTap,
       this.readOnly,
-      this.textInputType})
+      this.textInputType,
+      this.maxLine = 1})
       : super(key: key);
   final String labelText;
   final IconData icon;
   final bool isObsecure;
+  final int maxLine;
   final TextEditingController controller;
   final iconTap, textFieldTap, readOnly;
   final textInputType;
@@ -26,6 +28,7 @@ class MonitoringTextField extends StatelessWidget {
       controller: controller,
       onTap: textFieldTap,
       keyboardType: textInputType ?? TextInputType.text,
+      maxLines: maxLine, //
       decoration: InputDecoration(
           labelText: labelText,
           border: UnderlineInputBorder(borderSide: BorderSide(width: 0.1)),

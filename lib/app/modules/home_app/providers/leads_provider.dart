@@ -13,9 +13,12 @@ class LeadsProvider extends GetConnect {
     httpClient.baseUrl = dotenv.get("CLIENT_URL");
   }
 
-  Future<Leads> getLeads(id) async {
-    final response = await get('leads/$id');
-    print(response.bodyString);
+  Future<Leads> getLeads(id,
+      {String startData = "", String endDate = ""}) async {
+    print(startData + " " + endDate);
+    final response =
+        await get('leads/$id?start_date=$startData&end_date=$endDate');
+    print(response.request?.url);
     return response.body;
   }
 

@@ -26,29 +26,29 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                 MonitoringTextField(
                     labelText: "Password Lama",
                     icon: Icons.password,
-                    controller: TextEditingController(),
-                    isObsecure: false),
+                    controller: controller.textEditingController[0],
+                    isObsecure: true),
                 SizedBox(
                   height: LayoutHelper.spaceSizeBox,
                 ),
                 MonitoringTextField(
                     labelText: "Password Baru",
                     icon: Icons.lock,
-                    controller: TextEditingController(),
-                    isObsecure: false),
+                    controller: controller.textEditingController[1],
+                    isObsecure: true),
                 SizedBox(
                   height: LayoutHelper.spaceSizeBox,
                 ),
                 MonitoringTextField(
                     labelText: "Konfirmasi Password",
                     icon: Icons.lock_open_outlined,
-                    controller: TextEditingController(),
-                    isObsecure: false),
+                    controller: controller.textEditingController[2],
+                    isObsecure: true),
                 SizedBox(
                   height: LayoutHelper.spaceVertical,
                 ),
                 MonitoringButton(
-                  callback: () {},
+                  callback: () => controller.updatePassword(),
                   title: "Simpan",
                   color: Colors.orange[600],
                   border: Border.all(color: Colors.transparent),

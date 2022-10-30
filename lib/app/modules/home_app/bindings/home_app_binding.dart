@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:monitoring_karyawan/app/modules/home_app/controllers/leads_controller.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/providers/dashboard_provider.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/providers/leads_provider.dart';
 import 'package:monitoring_karyawan/app/modules/home_app/providers/product_provider.dart';
@@ -12,7 +11,6 @@ class HomeAppBinding extends Bindings {
     Get.lazyPut(() => ProductProvider());
     Get.lazyPut(() => DashboardProvider());
     Get.lazyPut(() => LeadsProvider());
-    Get.lazyPut(() => LeadsController(Get.find()));
     Get.put(HomeAppController(
         productProvider: Get.find(),
         dashboardProvider: Get.find(),

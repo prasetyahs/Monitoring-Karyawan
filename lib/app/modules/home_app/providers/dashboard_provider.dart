@@ -17,6 +17,7 @@ class DashboardProvider extends GetConnect {
 
   Future<Dashboard> getDashboard(id) async {
     final response = await get('dashboard/$id');
+    print("URL ${response.request!.url}");
     return response.body;
   }
 }
